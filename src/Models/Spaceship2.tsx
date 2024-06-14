@@ -82,6 +82,14 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
     },
     {
       position: new THREE.Vector3(
+        -521.5573443254968,
+        129.02599999999694,
+        68.52592085632755
+      ),
+      rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
+    },
+    {
+      position: new THREE.Vector3(
         -548.388577681454,
         130.01399999999688,
         127.2065685430205
