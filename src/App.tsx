@@ -6,6 +6,7 @@ import { PerspectiveCamera } from "@react-three/drei";
 import Space from "./Models/Space";
 import Spaceship from "./Models/Spaceship";
 import Orc from "./Models/Orc";
+import Loader from "./components/Loader";
 const CameraController = ({
   activeCamera,
 }: {
@@ -44,7 +45,7 @@ function App() {
       <Canvas
       // camera={}
       >
-        <Suspense>
+        <Suspense fallback={<Loader />}>
           <CameraController activeCamera={activeCamera} />
           <directionalLight position={[1, 100, 1]} intensity={2} />
           <ambientLight intensity={0.5} />
