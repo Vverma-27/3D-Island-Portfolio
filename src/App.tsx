@@ -1,12 +1,10 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import Island from "./Models/Island";
 import * as THREE from "three";
-import { Globals } from "@react-spring/three";
-import { SetStateAction, Suspense, useEffect, useRef, useState } from "react";
-import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei";
+import { Suspense, useRef, useState } from "react";
+import { PerspectiveCamera } from "@react-three/drei";
 import Space from "./Models/Space";
-import Spaceship from "./Models/Spaceship2";
-import Robot from "./Models/Robot";
+import Spaceship from "./Models/Spaceship";
 import Orc from "./Models/Orc";
 const CameraController = ({
   activeCamera,
@@ -37,21 +35,9 @@ function App() {
   const [activeCamera, setActiveCamera] = useState<"spaceship" | "default">(
     "default"
   );
-  const [currentStage, setCurrentStage] = useState(1);
   const [isRotating, setIsRotating] = useState(false);
   const [orcAlive, setOrcAlive] = useState(true);
   const [pathIndex, setPathIndex] = useState(0);
-
-  const orcPositions = [
-    {
-      position: new THREE.Vector3(-220.19850571916297, 30, -40.05445654802158),
-      rotation: new THREE.Euler(0, 3.632, 0, "XYZ"),
-    },
-    {
-      position: new THREE.Vector3(-380, 77, -25),
-      rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
-    },
-  ];
 
   return (
     <div className="h-full">
@@ -61,7 +47,8 @@ function App() {
         <Suspense>
           <CameraController activeCamera={activeCamera} />
           <directionalLight position={[1, 100, 1]} intensity={2} />
-          {/* <ambientLight intensity={0.5} />
+          <ambientLight intensity={0.5} />
+          {/* 
           <pointLight position={[10, 5, 10]} intensity={2} />
           <spotLight
             position={[0, 50, 10]}
@@ -70,7 +57,7 @@ function App() {
             intensity={2}
           /> */}
           <hemisphereLight
-            skyColor="#b1e1ff"
+            // skyColor="#b1e1ff"
             groundColor="#000000"
             intensity={1}
           />
@@ -84,7 +71,6 @@ function App() {
             scale={[0.6, 0.6, 0.6]}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
-            setCurrentStage={setCurrentStage}
             activeCamera={activeCamera}
             setActiveCamera={setActiveCamera}
             pathIndex={pathIndex}

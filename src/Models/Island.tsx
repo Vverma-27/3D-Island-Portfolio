@@ -7,20 +7,17 @@ Title: Issum, The town on Capital Isle
 */
 
 import { useGLTF } from "@react-three/drei";
-import { GroupProps, useFrame, useThree } from "@react-three/fiber";
+import { GroupProps } from "@react-three/fiber";
+//@ts-ignore
 import IslandGLB from "../assets/3D/island.glb";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import { Group } from "three";
 import Robot from "./Robot";
-import Orc from "./Orc";
-import TextTooltip from "../components/TextToolTip";
-import Window from "../components/Window";
 
 interface IslandProps extends GroupProps {
   isRotating: boolean;
   activeCamera: "spaceship" | "default";
   setIsRotating: Dispatch<SetStateAction<boolean>>;
-  setCurrentStage: Dispatch<SetStateAction<number>>;
   setActiveCamera: Dispatch<SetStateAction<"spaceship" | "default">>;
   pathIndex: number;
 }
@@ -28,14 +25,13 @@ interface IslandProps extends GroupProps {
 const Island = ({
   isRotating,
   setIsRotating,
-  setCurrentStage,
   setActiveCamera,
   activeCamera,
   pathIndex,
   ...props
 }: IslandProps) => {
   const { nodes, materials } = useGLTF(IslandGLB);
-  const islandRef = useRef<Group>();
+  const islandRef = useRef<Group>(null);
 
   const projects = [
     {

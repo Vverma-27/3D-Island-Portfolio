@@ -1,9 +1,10 @@
 // import { useRef } from "react";
-import { useAnimations, useGLTF } from "@react-three/drei";
-import { GroupProps, MeshProps, useFrame } from "@react-three/fiber";
+//@ts-nocheck
+import { useGLTF } from "@react-three/drei";
+import { MeshProps, useFrame } from "@react-three/fiber";
 
 import OrcGLB from "../assets/3D/orc.glb";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import TextTooltip from "../components/TextToolTip";
 import { Euler, Mesh, Vector3 } from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";

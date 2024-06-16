@@ -1,5 +1,5 @@
 import { Html } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Euler, Vector3 } from "three";
 
 const TextTooltip = ({

@@ -1,7 +1,7 @@
 // import { useRef } from "react";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { MeshProps } from "@react-three/fiber";
-
+//@ts-ignore
 import RobotGLB from "../assets/3D/robot.glb";
 import {
   Dispatch,
@@ -69,7 +69,7 @@ const Robot = ({
         />
       ) : null}
       {started && windowChildren && showPrompt && (
-        <Window onClose={() => setStarted(false)} title={title}>
+        <Window onClose={() => setStarted(false)} title={title || ""}>
           {windowChildren}
         </Window>
       )}

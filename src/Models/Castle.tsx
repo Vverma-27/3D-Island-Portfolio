@@ -7,6 +7,7 @@ Title: Corvin Castle
 */
 
 import { useGLTF } from "@react-three/drei";
+//@ts-ignore
 import CastleGLB from "../assets/3D/castle.glb";
 import { GroupProps } from "@react-three/fiber";
 

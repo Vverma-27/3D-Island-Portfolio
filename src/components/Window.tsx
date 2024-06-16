@@ -1,8 +1,6 @@
-import { DragControls, Html } from "@react-three/drei";
+import { Html } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import { useSpring, a } from "@react-spring/three";
-import { useDrag, useGesture } from "react-use-gesture";
-import { Mesh, Vector3 } from "three";
+import { Vector3 } from "three";
 import { useEffect, useRef, useState } from "react";
 
 const Window = ({
@@ -14,10 +12,9 @@ const Window = ({
   onClose: () => void;
   title: string;
 }) => {
-  const { size, viewport, gl } = useThree();
+  const { size } = useThree();
   const ref = useRef<HTMLDivElement>(null);
-  const aspect = size.width / viewport.width;
-  const [position, setPosition] = useState(new Vector3(2, 3, 0));
+  const [position] = useState(new Vector3(2, 3, 0));
   const [maximized, setMaximized] = useState(false);
 
   useEffect(() => {

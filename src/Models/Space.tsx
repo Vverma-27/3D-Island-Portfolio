@@ -1,7 +1,7 @@
 // import { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
-import { GroupProps, MeshProps, useFrame } from "@react-three/fiber";
-
+import { MeshProps } from "@react-three/fiber";
+//@ts-ignore
 import SpaceGLB from "../assets/3D/space.glb";
 import { useRef } from "react";
 import { Mesh } from "three";
@@ -12,7 +12,7 @@ interface SpaceProps extends MeshProps {
 
 const Space = ({ isRotating, ...props }: SpaceProps) => {
   const space = useGLTF(SpaceGLB);
-  const spaceRef = useRef<Mesh>();
+  const spaceRef = useRef<Mesh>(null);
   // useFrame((_, delta) => {
   //   if (!spaceRef.current) return;
   //   if (isRotating) {
