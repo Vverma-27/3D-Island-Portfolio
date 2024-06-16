@@ -12,6 +12,9 @@ import IslandGLB from "../assets/3D/island.glb";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import { Group } from "three";
 import Robot from "./Robot";
+import Orc from "./Orc";
+import TextTooltip from "../components/TextToolTip";
+import Window from "../components/Window";
 
 interface IslandProps extends GroupProps {
   isRotating: boolean;
@@ -19,6 +22,7 @@ interface IslandProps extends GroupProps {
   setIsRotating: Dispatch<SetStateAction<boolean>>;
   setCurrentStage: Dispatch<SetStateAction<number>>;
   setActiveCamera: Dispatch<SetStateAction<"spaceship" | "default">>;
+  pathIndex: number;
 }
 
 const Island = ({
@@ -27,134 +31,163 @@ const Island = ({
   setCurrentStage,
   setActiveCamera,
   activeCamera,
+  pathIndex,
   ...props
 }: IslandProps) => {
   const { nodes, materials } = useGLTF(IslandGLB);
   const islandRef = useRef<Group>();
-  // Get access to the Three.js renderer and viewport
-  // const { gl, viewport } = useThree();
 
-  // // Use a ref for the last mouse x position
-  // const lastX = useRef(0);
-  // // Use a ref for rotation speed
-  // const rotationSpeed = useRef(0);
-  // // Define a damping factor to control rotation damping
-  // const dampingFactor = 0.95;
-
-  // // Handle keydown events
-  // const handleKeyDown = (event) => {
-  //   console.log("🚀 ~ handleKeyDown ~ event:", event);
-  //   if (event.key === "ArrowLeft" || event.key === "ArrowDown") {
-  //     if (!isRotating) setIsRotating(true);
-  //     islandRef.current.rotation.y += 0.005 * Math.PI;
-  //     rotationSpeed.current = 0.007;
-  //   } else if (event.key === "ArrowRight" || event.key === "ArrowUp") {
-  //     if (!isRotating) setIsRotating(true);
-
-  //     islandRef.current.rotation.y -= 0.005 * Math.PI;
-  //     rotationSpeed.current = -0.007;
-  //   }
-  // };
-
-  // // Handle keyup events
-  // const handleKeyUp = (event) => {
-  //   if (
-  //     event.key === "ArrowLeft" ||
-  //     event.key === "ArrowUp" ||
-  //     event.key === "ArrowDown" ||
-  //     event.key === "ArrowRight"
-  //   ) {
-  //     setIsRotating(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   // Add event listeners for pointer and keyboard events
-  //   const canvas = gl.domElement;
-  //   // canvas.addEventListener("pointerdown", handlePointerDown);
-  //   // canvas.addEventListener("pointerup", handlePointerUp);
-  //   // canvas.addEventListener("pointermove", handlePointerMove);
-  //   window.addEventListener("keydown", handleKeyDown);
-  //   window.addEventListener("keyup", handleKeyUp);
-  //   // canvas.addEventListener("touchstart", handleTouchStart);
-  //   // canvas.addEventListener("touchend", handleTouchEnd);
-  //   // canvas.addEventListener("touchmove", handleTouchMove);
-
-  //   // Remove event listeners when component unmounts
-  //   return () => {
-  //     // canvas.removeEventListener("pointerdown", handlePointerDown);
-  //     // canvas.removeEventListener("pointerup", handlePointerUp);
-  //     // canvas.removeEventListener("pointermove", handlePointerMove);
-  //     window.removeEventListener("keydown", handleKeyDown);
-  //     window.removeEventListener("keyup", handleKeyUp);
-  //     // canvas.removeEventListener("touchstart", handleTouchStart);
-  //     // canvas.removeEventListener("touchend", handleTouchEnd);
-  //     // canvas.removeEventListener("touchmove", handleTouchMove);
-  //   };
-  // }, [gl]);
-
-  // // This function is called on each frame update
-  // useFrame(() => {
-  //   if (!islandRef.current) return;
-  //   // If not rotating, apply damping to slow down the rotation (smoothly)
-  //   if (!isRotating) {
-  //     // Apply damping factor
-  //     rotationSpeed.current *= dampingFactor;
-
-  //     // Stop rotation when speed is very small
-  //     if (Math.abs(rotationSpeed.current) < 0.001) {
-  //       rotationSpeed.current = 0;
-  //     }
-
-  //     islandRef.current.rotation.y += rotationSpeed.current;
-  //   } else {
-  //     // When rotating, determine the current stage based on island's orientation
-  //     const rotation = islandRef.current.rotation.y;
-
-  //     /**
-  //      * Normalize the rotation value to ensure it stays within the range [0, 2 * Math.PI].
-  //      * The goal is to ensure that the rotation value remains within a specific range to
-  //      * prevent potential issues with very large or negative rotation values.
-  //      *  Here's a step-by-step explanation of what this code does:
-  //      *  1. rotation % (2 * Math.PI) calculates the remainder of the rotation value when divided
-  //      *     by 2 * Math.PI. This essentially wraps the rotation value around once it reaches a
-  //      *     full circle (360 degrees) so that it stays within the range of 0 to 2 * Math.PI.
-  //      *  2. (rotation % (2 * Math.PI)) + 2 * Math.PI adds 2 * Math.PI to the result from step 1.
-  //      *     This is done to ensure that the value remains positive and within the range of
-  //      *     0 to 2 * Math.PI even if it was negative after the modulo operation in step 1.
-  //      *  3. Finally, ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) applies another
-  //      *     modulo operation to the value obtained in step 2. This step guarantees that the value
-  //      *     always stays within the range of 0 to 2 * Math.PI, which is equivalent to a full
-  //      *     circle in radians.
-  //      */
-  //     const normalizedRotation =
-  //       ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-
-  //     // Set the current stage based on the island's orientation
-  //     switch (true) {
-  //       case normalizedRotation >= 5.45 && normalizedRotation <= 5.85:
-  //         setCurrentStage(4);
-  //         break;
-  //       case normalizedRotation >= 0.85 && normalizedRotation <= 1.3:
-  //         setCurrentStage(3);
-  //         break;
-  //       case normalizedRotation >= 2.4 && normalizedRotation <= 2.6:
-  //         setCurrentStage(2);
-  //         break;
-  //       case normalizedRotation >= 4.25 && normalizedRotation <= 4.75:
-  //         setCurrentStage(1);
-  //         break;
-  //       default:
-  //         setCurrentStage(0);
-  //     }
-  //   }
-  // });
+  const projects = [
+    {
+      name: "Kalyan Trust",
+      icon: "/kalyan.png",
+      link: "https://kalyantrust.org/",
+      techStack: [
+        "Razorpay",
+        "Tailwind CSS",
+        "Next.js",
+        "TypeScript",
+        "Express",
+        "MongoDB",
+      ],
+      description: `This fullstack application, developed for an NGO, integrates payment
+            processing and receipt storage using Razorpay. Built with Next.js
+            and TypeScript, it employs a custom Express server for backend
+            functionality and is styled with Tailwind CSS for a modern and
+            responsive user interface. The app facilitates secure and efficient
+            payment transactions, ensuring reliable record-keeping for the
+            NGO&pos;s financial operations.`,
+    },
+    {
+      name: "Tragency Media",
+      icon: "/tragency.png",
+      link: "https://tragency-server.onrender.com",
+      techStack: [
+        "Express",
+        "Typescript",
+        "Mongodb",
+        "React",
+        "Redux",
+        "PWA",
+        "Socket.io",
+      ],
+      description: `Developed a sophisticated stone-paper-scissors game with both AI and
+            multiplayer modes. The AI opponent is designed using advanced
+            pattern recognition techniques to adapt and respond to the
+            player&pos;s strategies, providing a challenging and dynamic
+            gameplay experience. In multiplayer mode, users can easily create
+            and share a game room link to invite friends for a match. The game
+            utilizes WebSockets for real-time communication, ensuring a seamless
+            and interactive multiplayer experience.`,
+    },
+    {
+      name: "AI/Multiplayer Stone Paper Scissors",
+      icon: "/sps.png",
+      link: "https://meta-sps.netlify.app/",
+      techStack: ["TypeScript", "Socket.io", "React", "Express"],
+      description: `This application is developed using React and TypeScript, leveraging
+            the React DnD library to replicate Instagram&pos;s create mode. It
+            enables users to design and customize memes, providing functionality
+            for exporting the finished creations.`,
+    },
+    {
+      name: "Insta Create Clone",
+      icon: "/meta-meme.png",
+      link: "https://meta-meme.netlify.app/",
+      techStack: ["React", "TypeScript", "React DnD"],
+      description: `This advanced fullstack MERN progressive web application allows
+            users to post content in three diverse formats: vlogs, blogs, and
+            text entries. It includes a comprehensive travel diary feature for
+            detailed journey documentation and incorporates chat villages where
+            travelers can connect and share experiences in real-time using
+            WebSockets. The application is further enhanced with robust push
+            notification capabilities, ensuring continuous user engagement and
+            timely updates.`,
+    },
+  ];
   return (
     <group {...props} dispose={null} ref={islandRef}>
       <Robot
         scale={[0.4, 0.4, 0.4]}
         position={[26, 1.1, 5.6]}
         rotation={[0, Math.PI / 4, 0]}
+        key="robot1"
         setActiveCamera={setActiveCamera}
+        showPrompt={pathIndex === 0}
+        text="Hello, Welcome to the Future"
+        startedText="Your Journey begins now. Use arrow keys to scroll"
+      />
+      <Robot
+        scale={[0.25, 0.25, 0.25]}
+        position={[21, 2.2, -2.7]}
+        rotation={[0, Math.PI / 8, 0]}
+        key="robot2"
+        setActiveCamera={setActiveCamera}
+        text="Click to learn about the creator of this island"
+        buttonText="About Me"
+        showPrompt={pathIndex === 1}
+        title="About me"
+        windowChildren={
+          <div>
+            <div>C:\Users\Vihaan&gt; whoami</div>
+            {/* {showResponse ? ( */}
+            <>
+              <div>
+                Vihaan Verma | MERN stack developer | Freelancer | College
+                Student
+              </div>
+              <br />
+              <div>C:\Users\Vihaan&gt;</div>
+            </>
+            {/* ) : null} */}
+          </div>
+        }
+      />
+      <Robot
+        scale={[0.25, 0.25, 0.25]}
+        position={[2.7, 7.7, -17]}
+        rotation={[0, Math.PI / 3.3, 0]}
+        key="robot2"
+        setActiveCamera={setActiveCamera}
+        text="Click to see other projects by me"
+        buttonText="See Projects"
+        showPrompt={pathIndex === 5}
+        title="See Projects"
+        windowChildren={
+          <>
+            {projects.map((project, i) => {
+              return (
+                <div key={i} className="w-full mb-4">
+                  <div className="relative h-32 overflow-hidden">
+                    <img
+                      src={project.icon}
+                      alt={project.name}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h2 className="text-lg font-bold mb-2">{project.name}</h2>
+                    <div className="flex mb-2">
+                      {project.techStack.map((tech, index) => (
+                        <div
+                          key={index}
+                          className="bg-gray-200 text-xs px-2 py-1 mr-2 rounded"
+                        >
+                          {tech}
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-700">
+                      {project.description}
+                    </p>
+                  </div>
+                  <hr />
+                  <hr />
+                </div>
+              );
+            })}
+          </>
+        }
       />
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group

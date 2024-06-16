@@ -1,12 +1,13 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Island from "./Models/Island";
 import * as THREE from "three";
+import { Globals } from "@react-spring/three";
 import { SetStateAction, Suspense, useEffect, useRef, useState } from "react";
 import { OrbitControls, PerspectiveCamera, Text } from "@react-three/drei";
 import Space from "./Models/Space";
 import Spaceship from "./Models/Spaceship2";
 import Robot from "./Models/Robot";
-
+import Orc from "./Models/Orc";
 const CameraController = ({
   activeCamera,
 }: {
@@ -38,6 +39,20 @@ function App() {
   );
   const [currentStage, setCurrentStage] = useState(1);
   const [isRotating, setIsRotating] = useState(false);
+  const [orcAlive, setOrcAlive] = useState(true);
+  const [pathIndex, setPathIndex] = useState(0);
+
+  const orcPositions = [
+    {
+      position: new THREE.Vector3(-220.19850571916297, 30, -40.05445654802158),
+      rotation: new THREE.Euler(0, 3.632, 0, "XYZ"),
+    },
+    {
+      position: new THREE.Vector3(-380, 77, -25),
+      rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
+    },
+  ];
+
   return (
     <div className="h-full">
       <Canvas
@@ -72,6 +87,7 @@ function App() {
             setCurrentStage={setCurrentStage}
             activeCamera={activeCamera}
             setActiveCamera={setActiveCamera}
+            pathIndex={pathIndex}
           />
           <Spaceship
             scale={
@@ -80,10 +96,25 @@ function App() {
                 : [0.05, 0.05, 0.05]
             }
             position={[15, 1, 5]}
+            {...{ pathIndex, setPathIndex }}
             // isRotating={isRotating}
             rotation={[0, -Math.PI / 5, 0]}
             activeCamera={activeCamera}
+            orcAlive={orcAlive}
+            onKill={() => {
+              setOrcAlive(false);
+            }}
           />
+          <Orc
+            position={[7.25, 1.5, -1.5]}
+            rotation={[0, Math.PI / 3, 0]}
+            scale={[0.0023, 0.0023, 0.0023]}
+            showPrompt={pathIndex === 2}
+            alive={orcAlive}
+          />
+          {/* {orcPositions?.map(({ position, rotation }) => {
+            return <Orc position={position} rotation={rotation} />;
+          })} */}
           {/* <TextTooltip /> */}
         </Suspense>
       </Canvas>

@@ -6,26 +6,37 @@ import {
 } from "@react-three/drei";
 import { MeshProps, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 import SpaceshipGLB from "../assets/3D/spaceship.glb";
+import PlasmaBeam from "./PlasmaBeam";
 
 interface SpaceshipProps extends MeshProps {
   activeCamera: "spaceship" | "default";
+  pathIndex: number;
+  setPathIndex: Dispatch<SetStateAction<number>>;
+  onKill: () => void;
+  orcAlive: boolean;
 }
 
-const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
+const Spaceship = ({
+  activeCamera,
+  pathIndex,
+  setPathIndex,
+  onKill,
+  orcAlive,
+  ...props
+}: SpaceshipProps) => {
   const { scene, animations } = useGLTF(SpaceshipGLB);
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const spaceshipRef = useRef<THREE.Group>(null);
   const { actions } = useAnimations(animations, spaceshipRef);
   const { set } = useThree();
+  const [showPlasmaBeam, setShowPlasmaBeam] = useState(false);
   const [initialized, setInitialized] = useState(false);
-  console.log("🚀 ~ Spaceship ~ actions:", spaceshipRef.current?.position);
-  console.log("🚀 ~ Spaceship ~ rotation:", spaceshipRef.current?.rotation);
-  const [pathIndex, setPathIndex] = useState(0);
+  //   console.log("🚀 ~ Spaceship ~ actions:", spaceshipRef.current?.position);
+  //   console.log("🚀 ~ Spaceship ~ rotation:", spaceshipRef.current?.rotation);
   const [moving, setMoving] = useState(false);
-  const helpingIndexes = [3];
 
   const path = [
     {
@@ -62,7 +73,7 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
         73.22600000000011,
         -124.86007641993007
       ),
-      rotation: new THREE.Euler(0, 2.3920000000000017, 0, "XYZ"),
+      rotation: new THREE.Euler(0, Math.PI, 0, "XYZ"),
     },
     {
       position: new THREE.Vector3(
@@ -70,7 +81,19 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
         82.81399999999957,
         -102.49134770054597
       ),
-      rotation: new THREE.Euler(0, 2.472, 0, "XYZ"),
+      rotation: new THREE.Euler(0, Math.PI, 0, "XYZ"),
+    },
+    {
+      position: new THREE.Vector3(
+        -429.5231746779945,
+        82.81399999999957,
+        -102.49134770054597
+      ),
+      rotation: new THREE.Euler(0, -Math.PI / 3, 0, "XYZ"),
+    },
+    {
+      position: new THREE.Vector3(-380, 77, -25),
+      rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
     },
     {
       position: new THREE.Vector3(
@@ -81,12 +104,24 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
       rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
     },
     {
+      position: new THREE.Vector3(-298, 120, 150),
+      rotation: new THREE.Euler(0, Math.PI - Math.PI / 10, 0, "XYZ"),
+    },
+    {
       position: new THREE.Vector3(
         -521.5573443254968,
         129.02599999999694,
         68.52592085632755
       ),
-      rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
+      rotation: new THREE.Euler(0, Math.PI, 0, "XYZ"),
+    },
+    {
+      position: new THREE.Vector3(
+        -521.5573443254968,
+        129.02599999999694,
+        68.52592085632755
+      ),
+      rotation: new THREE.Euler(0, -Math.PI / 1.8, 0, "XYZ"),
     },
     {
       position: new THREE.Vector3(
@@ -97,13 +132,6 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
       rotation: new THREE.Euler(0, 5.651999999999968, 0, "XYZ"),
     },
   ];
-
-  useEffect(() => {
-    if (activeCamera === "spaceship") {
-      // Play the animation when activeCamera changes to "spaceship"
-      actions["FLY"]?.reset().play();
-    }
-  }, [activeCamera, actions]);
   const [rotationSpeed, setRotationSpeed] = useState(0);
   const [moveSpeed, setMoveSpeed] = useState(0);
   const [upSpeed, setUpSpeed] = useState(0);
@@ -114,9 +142,10 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
 
   useEffect(() => {
     if (activeCamera === "spaceship") {
-      actions["FLY"]?.reset().play();
+      if (pathIndex !== 2) actions["FLY"]?.reset().play();
+      else actions["FLY"]?.reset().stop();
     }
-  }, [activeCamera, actions]);
+  }, [activeCamera, actions, pathIndex]);
 
   const handleKeyDown = (event) => {
     switch (event.key) {
@@ -195,6 +224,17 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
   useEffect(() => {
     const handleKeyDown1 = (event) => {
       if (event.key === "ArrowUp" && !moving) {
+        if (pathIndex === 2 && orcAlive) {
+          const currPos = spaceshipRef.current?.position;
+          spaceshipRef.current?.position.lerp(
+            new THREE.Vector3((currPos?.x || 0) - 4, currPos?.y, currPos?.z),
+            0.5
+          );
+          setTimeout(() => {
+            spaceshipRef.current?.position.lerp(currPos, 0.2);
+          }, 3000);
+          return;
+        }
         setPathIndex((prevIndex) => Math.min(prevIndex + 1, path.length - 1));
         setMoving(true);
       } else if (event.key === "ArrowDown" && !moving) {
@@ -208,7 +248,21 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown1);
     };
-  }, [moving]);
+  }, [moving, orcAlive, spaceshipRef.current, pathIndex]);
+
+  useEffect(() => {
+    const handleClick = () => {
+      if (pathIndex === 2) {
+        setShowPlasmaBeam(true);
+      }
+    };
+
+    window.addEventListener("click", handleClick);
+
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }, [pathIndex]);
 
   useFrame(() => {
     if (!spaceshipRef.current) return;
@@ -315,15 +369,58 @@ const Spaceship = ({ activeCamera, ...props }: SpaceshipProps) => {
           // makeDefault={activeCamera === "spaceship"}
           position={[0, 4, 0]}
         />
-        {/* <OrbitControls
-          enablePan={true} // Enable panning (side-to-side movement)
-          enableZoom={false} // Disable zooming
-          enableRotate={true} // Enable rotation around the spaceship
-          maxPolarAngle={Math.PI / 2} // Limit vertical rotation angle
-          minPolarAngle={0} // Limit vertical rotation angle
-          minDistance={1} // Minimum distance from the spaceship
-          maxDistance={20} // Maximum distance from the spaceship
-        /> */}
+        {
+          showPlasmaBeam &&
+            [-1, -0.5, 0, 0.5, 1].map((e, i) => {
+              const YPossVals = [4, 6, 8];
+              const targetPosition = new THREE.Vector3(12, YPossVals[i % 3], e);
+              return (
+                <PlasmaBeam
+                  position={new THREE.Vector3(4, 2, e)}
+                  direction={new THREE.Vector3(0, 0, 0)}
+                  length={1}
+                  radius={0.1}
+                  color="cyan"
+                  targetPosition={targetPosition}
+                  onReached={() => {
+                    setShowPlasmaBeam(false);
+                    onKill();
+                  }}
+                />
+              );
+            })
+          //   <>
+          //     <PlasmaBeam
+          //       position={new THREE.Vector3(4, 2, 0.5)}
+          //       direction={new THREE.Vector3(0, 0, 0)}
+          //       length={1}
+          //       radius={0.1}
+          //       color="cyan"
+
+          //     />
+          //     <PlasmaBeam
+          //       position={new THREE.Vector3(4, 2, -1)}
+          //       direction={new THREE.Vector3(0, 0, 0)}
+          //       length={1}
+          //       radius={0.1}
+          //       color="cyan"
+          //     />
+          //     <PlasmaBeam
+          //       position={new THREE.Vector3(4, 2, 1)}
+          //       direction={new THREE.Vector3(0, 0, 0)}
+          //       length={1}
+          //       radius={0.1}
+          //       color="cyan"
+          //     />
+          //     <PlasmaBeam
+          //       position={new THREE.Vector3(4, 2, -0.5)}
+          //       direction={new THREE.Vector3(0, 0, 0)}
+          //       length={1}
+          //       radius={0.1}
+          //       color="cyan"
+          //     />
+          //   </>
+        }
       </group>
     </mesh>
   );
