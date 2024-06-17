@@ -1,4 +1,4 @@
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import Island from "./Models/Island";
 import * as THREE from "three";
 import { Suspense, useRef, useState } from "react";
@@ -10,14 +10,18 @@ import Loader from "./components/Loader";
 import Robot from "./Models/Robot";
 const CameraController = ({
   activeCamera,
+  makeDefault,
 }: {
   activeCamera: "spaceship" | "default";
+  makeDefault: boolean;
 }) => {
+  const { set } = useThree();
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
   const spaceship = activeCamera === "spaceship";
   useFrame(() => {
     if (cameraRef.current) {
       cameraRef.current.lookAt(16, 1, 4.5);
+      if (makeDefault) set({ camera: cameraRef.current });
     }
   });
 
@@ -38,7 +42,7 @@ function App() {
     "default"
   );
   const [orcAlive, setOrcAlive] = useState(true);
-  const [pathIndex, setPathIndex] = useState(0);
+  const [pathIndex, setPathIndex] = useState(-1);
 
   const projects = [
     {
@@ -114,7 +118,10 @@ function App() {
       // camera={}
       >
         <Suspense fallback={<Loader />}>
-          <CameraController activeCamera={activeCamera} />
+          <CameraController
+            activeCamera={activeCamera}
+            makeDefault={pathIndex === -1}
+          />
           <directionalLight position={[1, 100, 1]} intensity={2} />
           <ambientLight intensity={1} />
           {/* 
@@ -148,7 +155,7 @@ function App() {
               setOrcAlive(false);
             }}
           />
-          {pathIndex >= 1 && (
+          {pathIndex >= 0 ? (
             <Orc
               position={[7.25, 1.5, -1.5]}
               rotation={[0, Math.PI / 3, 0]}
@@ -156,14 +163,14 @@ function App() {
               showPrompt={pathIndex === 2}
               alive={orcAlive}
             />
-          )}
+          ) : null}
           <Robot
             scale={[0.24, 0.24, 0.24]}
             position={[15.8, 0.6, 3.5]}
             rotation={[0, Math.PI / 4, 0]}
             key="robot1"
             setActiveCamera={setActiveCamera}
-            showPrompt={pathIndex === 0}
+            showPrompt={pathIndex <= 0}
             text="Hello, Welcome to the Future"
             startedText="Your Journey begins now. Use arrow keys to scroll"
           />
