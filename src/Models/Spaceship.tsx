@@ -293,7 +293,7 @@ const Spaceship = ({
           ref={cameraRef}
           rotation={[0, -Math.PI / 2, 0]}
           near={0.1}
-          far={1200}
+          far={2000}
           zoom={0.4}
           // makeDefault={activeCamera === "spaceship"}
           position={[0, 4, 0]}

@@ -2,7 +2,7 @@
 import { useGLTF } from "@react-three/drei";
 import { MeshProps } from "@react-three/fiber";
 //@ts-ignore
-import SpaceGLB from "../assets/3D/space.glb";
+import SpaceGLB from "../assets/3D/sky.glb";
 import { useRef } from "react";
 import { Mesh } from "three";
 

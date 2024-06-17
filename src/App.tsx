@@ -131,8 +131,19 @@ function App() {
             intensity={1}
           />
           {/* <OrbitControls /> */}
-          <Space position={[0, 0, 0]} scale={[0.1, 0.1, 0.1]} />
-          <Island scale={[0.6, 0.6, 0.6]} />
+          <Space
+            position={[0, 0, 0]}
+            scale={[2, 2, 2]}
+            rotation={[Math.PI, 0, Math.PI]}
+          />
+          <pointLight position={[7.25, 2, -1.5]} intensity={4} />
+          <Orc
+            position={[7.25, 1.5, -1.5]}
+            rotation={[0, Math.PI / 3, 0]}
+            scale={[0.004, 0.004, 0.004]}
+            showPrompt={pathIndex === 2}
+            alive={orcAlive}
+          />
           <Spaceship
             scale={
               activeCamera === "spaceship"
@@ -148,14 +159,6 @@ function App() {
               setOrcAlive(false);
             }}
           />
-          <pointLight position={[7.25, 2, -1.5]} intensity={4} />
-          <Orc
-            position={[7.25, 1.5, -1.5]}
-            rotation={[0, Math.PI / 3, 0]}
-            scale={[0.004, 0.004, 0.004]}
-            showPrompt={pathIndex === 2}
-            alive={orcAlive}
-          />
           <Robot
             scale={[0.24, 0.24, 0.24]}
             position={[15.8, 0.6, 3.5]}
@@ -166,6 +169,7 @@ function App() {
             text="Hello, Welcome to the Future"
             startedText="Your Journey begins now. Use arrow keys to scroll"
           />
+          <Island scale={[0.6, 0.6, 0.6]} />
           {/* {pathIndex === 1 && ( */}
           <Robot
             scale={[0.15, 0.15, 0.15]}
