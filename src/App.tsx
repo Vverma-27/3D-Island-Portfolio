@@ -131,6 +131,7 @@ function App() {
             intensity={1}
           />
           {/* <OrbitControls /> */}
+          <Island scale={[0.6, 0.6, 0.6]} />
           <Space
             position={[0, 0, 0]}
             scale={[2, 2, 2]}
@@ -169,7 +170,6 @@ function App() {
             text="Hello, Welcome to the Future"
             startedText="Your Journey begins now. Use arrow keys to scroll"
           />
-          <Island scale={[0.6, 0.6, 0.6]} />
           {/* {pathIndex === 1 && ( */}
           <Robot
             scale={[0.15, 0.15, 0.15]}
