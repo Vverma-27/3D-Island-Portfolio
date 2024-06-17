@@ -145,7 +145,6 @@ const Spaceship = ({
       else actions["FLY"]?.reset().stop();
     }
   }, [activeCamera, actions, pathIndex]);
-
   useEffect(() => {
     const handleKeyDown1 = (event: any) => {
       if (event.key === "ArrowUp" && !moving && initialized) {
@@ -254,7 +253,6 @@ const Spaceship = ({
               // cameraRef.current.rotation.set(0, Math.PI / 2, 0);
               set({ camera: cameraRef.current });
               setInitialized(true);
-              setPathIndex(0);
             }
             // cameraRef.current.rotation.y = Math.PI / 4; // Rotate by 45 degrees (PI/4 radians)
           }, 300);

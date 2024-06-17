@@ -1,10 +1,10 @@
 // import { useRef } from "react";
 //@ts-nocheck
-import { useGLTF } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
 import { MeshProps, useFrame } from "@react-three/fiber";
 
-import OrcGLB from "../assets/3D/orc-v1.glb";
-import { useMemo, useRef, useState } from "react";
+import OrcGLB from "../assets/3D/minotaur.glb";
+import { useEffect, useMemo, useRef, useState } from "react";
 import TextTooltip from "../components/TextToolTip";
 import { Euler, Mesh, Vector3 } from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
@@ -19,7 +19,13 @@ const Orc = ({ showPrompt, alive, ...props }: OrcProps) => {
   const [opacity, setOpacity] = useState(1);
 
   //   const [alive,setAlive] = useState()
-  const { scene } = useGLTF(OrcGLB);
+  const { scene, animations } = useGLTF(OrcGLB);
+  const { actions } = useAnimations(animations, orcRef);
+  useEffect(() => {
+    if (showPrompt)
+      actions["Armature|Armature|mixamo.com|Layer0"].reset().play();
+    else actions["Armature|Armature|mixamo.com|Layer0"].stop();
+  }, [showPrompt]);
   // console.log("🚀 ~ Orc ~ scene:", scene);
   const copiedScene = useMemo(() => clone(scene), [scene]);
   useFrame((_, delta) => {
@@ -61,8 +67,8 @@ const Orc = ({ showPrompt, alive, ...props }: OrcProps) => {
               ? "You will have to get by me. Use Mouse to shoot"
               : "Arggghh you killed me."
           }
-          scale={new Vector3(50, 50, 50)}
-          position={new Vector3(300, 300, 0)}
+          scale={new Vector3(30, 30, 30)}
+          position={new Vector3(160, 180, 0)}
           rotation={new Euler(0, Math.PI / 10, 0)}
         />
       ) : null}
