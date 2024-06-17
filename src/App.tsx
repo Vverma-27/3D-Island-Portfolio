@@ -148,13 +148,15 @@ function App() {
               setOrcAlive(false);
             }}
           />
-          <Orc
-            position={[7.25, 1.5, -1.5]}
-            rotation={[0, Math.PI / 3, 0]}
-            scale={[0.0023, 0.0023, 0.0023]}
-            showPrompt={pathIndex === 2}
-            alive={orcAlive}
-          />
+          {pathIndex >= 1 && (
+            <Orc
+              position={[7.25, 1.5, -1.5]}
+              rotation={[0, Math.PI / 3, 0]}
+              scale={[0.0023, 0.0023, 0.0023]}
+              showPrompt={pathIndex === 2}
+              alive={orcAlive}
+            />
+          )}
           <Robot
             scale={[0.24, 0.24, 0.24]}
             position={[15.8, 0.6, 3.5]}
