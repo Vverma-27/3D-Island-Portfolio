@@ -24,7 +24,7 @@ const CameraController = ({
     <PerspectiveCamera
       ref={cameraRef}
       near={0.1}
-      zoom={spaceship ? 0.5 : 1}
+      zoom={spaceship ? 0.8 : 1}
       far={300}
       position={[19, 2, 6]}
       makeDefault
@@ -92,13 +92,15 @@ function App() {
               setOrcAlive(false);
             }}
           />
-          <Orc
-            position={[7.25, 1.5, -1.5]}
-            rotation={[0, Math.PI / 3, 0]}
-            scale={[0.0023, 0.0023, 0.0023]}
-            showPrompt={pathIndex === 2}
-            alive={orcAlive}
-          />
+          {pathIndex === 2 && (
+            <Orc
+              position={[7.25, 1.5, -1.5]}
+              rotation={[0, Math.PI / 3, 0]}
+              scale={[0.0023, 0.0023, 0.0023]}
+              showPrompt={pathIndex === 2}
+              alive={orcAlive}
+            />
+          )}
           {/* {orcPositions?.map(({ position, rotation }) => {
             return <Orc position={position} rotation={rotation} />;
           })} */}

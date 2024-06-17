@@ -71,7 +71,7 @@ const Window = ({
           className={`${
             maximized
               ? "w-[100vw] h-[100vh]"
-              : "w-auto min-w-96 h-[20vh] min-h-96"
+              : "w-auto min-w-96 h-[20vh] min-h-64"
           } border border-gray-300 rounded-lg shadow-lg bg-white overflow-hidden cursor-default`}
           // onMouseMove={(e) => console.log(e)}
         >

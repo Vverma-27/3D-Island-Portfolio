@@ -1,18 +1,12 @@
 import { Html } from "@react-three/drei";
 import "./loader.css";
-import { useEffect, useRef } from "react";
 import { Vector3 } from "three";
 import { useThree } from "@react-three/fiber";
 
 const Loader = () => {
   const { viewport } = useThree();
-  const HTMLRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {});
   return (
-    <Html
-      ref={HTMLRef}
-      position={new Vector3(-viewport.width / 2, viewport.height / 2, 0)}
-    >
+    <Html position={new Vector3(-viewport.width / 2, viewport.height / 2, 0)}>
       <div
         className="h-[100vh] w-[100vw] flex justify-center items-center"
         id="loader"

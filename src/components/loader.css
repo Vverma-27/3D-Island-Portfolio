@@ -4,13 +4,13 @@
   --fg: hsl(var(--hue), 90%, 10%);
   --primary: hsl(var(--hue), 90%, 50%);
   --trans-dur: 0.3s;
-  font-size: calc(16px + (32 - 16) * (100vw - 320px) / (2560 - 320));
 }
 #loader {
   background-color: var(--bg);
   color: var(--fg);
   display: flex;
   font: 1em/1.5 sans-serif;
+  font-size: calc(16px + (32 - 16) * (100vw - 320px) / (2560 - 320));
   height: 100vh;
   position: fixed;
   top: 0;

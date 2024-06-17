@@ -113,78 +113,82 @@ const Island = ({
         text="Hello, Welcome to the Future"
         startedText="Your Journey begins now. Use arrow keys to scroll"
       />
-      <Robot
-        scale={[0.25, 0.25, 0.25]}
-        position={[21, 2.2, -2.7]}
-        rotation={[0, Math.PI / 8, 0]}
-        key="robot2"
-        setActiveCamera={setActiveCamera}
-        text="Click to learn about the creator of this island"
-        buttonText="About Me"
-        showPrompt={pathIndex === 1}
-        title="About me"
-        windowChildren={
-          <div>
-            <div>C:\Users\Vihaan&gt; whoami</div>
-            {/* {showResponse ? ( */}
-            <>
-              <div>
-                Vihaan Verma | MERN stack developer | Freelancer | College
-                Student
-              </div>
-              <br />
-              <div>C:\Users\Vihaan&gt;</div>
-            </>
-            {/* ) : null} */}
-          </div>
-        }
-      />
-      <Robot
-        scale={[0.25, 0.25, 0.25]}
-        position={[2.7, 7.7, -17]}
-        rotation={[0, Math.PI / 3.3, 0]}
-        key="robot2"
-        setActiveCamera={setActiveCamera}
-        text="Click to see other projects by me"
-        buttonText="See Projects"
-        showPrompt={pathIndex === 5}
-        title="See Projects"
-        windowChildren={
-          <>
-            {projects.map((project, i) => {
-              return (
-                <div key={i} className="w-full mb-4">
-                  <div className="relative h-32 overflow-hidden">
-                    <img
-                      src={project.icon}
-                      alt={project.name}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h2 className="text-lg font-bold mb-2">{project.name}</h2>
-                    <div className="flex mb-2">
-                      {project.techStack.map((tech, index) => (
-                        <div
-                          key={index}
-                          className="bg-gray-200 text-xs px-2 py-1 mr-2 rounded"
-                        >
-                          {tech}
-                        </div>
-                      ))}
-                    </div>
-                    <p className="text-sm text-gray-700">
-                      {project.description}
-                    </p>
-                  </div>
-                  <hr />
-                  <hr />
+      {pathIndex === 1 && (
+        <Robot
+          scale={[0.25, 0.25, 0.25]}
+          position={[21, 2.2, -2.7]}
+          rotation={[0, Math.PI / 8, 0]}
+          key="robot2"
+          setActiveCamera={setActiveCamera}
+          text="Click to learn about the creator of this island"
+          buttonText="About Me"
+          showPrompt={pathIndex === 1}
+          title="About me"
+          windowChildren={
+            <div>
+              <div>C:\Users\Vihaan&gt; whoami</div>
+              {/* {showResponse ? ( */}
+              <>
+                <div>
+                  Vihaan Verma | MERN stack developer | Freelancer | College
+                  Student
                 </div>
-              );
-            })}
-          </>
-        }
-      />
+                <br />
+                <div>C:\Users\Vihaan&gt;</div>
+              </>
+              {/* ) : null} */}
+            </div>
+          }
+        />
+      )}
+      {pathIndex === 5 && (
+        <Robot
+          scale={[0.25, 0.25, 0.25]}
+          position={[2.7, 7.7, -17]}
+          rotation={[0, Math.PI / 3.3, 0]}
+          key="robot2"
+          setActiveCamera={setActiveCamera}
+          text="Click to see other projects by me"
+          buttonText="See Projects"
+          showPrompt={pathIndex === 5}
+          title="See Projects"
+          windowChildren={
+            <>
+              {projects.map((project, i) => {
+                return (
+                  <div key={i} className="w-full mb-4">
+                    <div className="relative h-32 overflow-hidden">
+                      <img
+                        src={project.icon}
+                        alt={project.name}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h2 className="text-lg font-bold mb-2">{project.name}</h2>
+                      <div className="flex mb-2">
+                        {project.techStack.map((tech, index) => (
+                          <div
+                            key={index}
+                            className="bg-gray-200 text-xs px-2 py-1 mr-2 rounded"
+                          >
+                            {tech}
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-sm text-gray-700">
+                        {project.description}
+                      </p>
+                    </div>
+                    <hr />
+                    <hr />
+                  </div>
+                );
+              })}
+            </>
+          }
+        />
+      )}
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group
           position={[0.241, -7.502, 6.846]}
