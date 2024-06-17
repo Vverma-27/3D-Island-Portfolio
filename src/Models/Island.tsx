@@ -33,77 +33,9 @@ const Island = ({
   const { nodes, materials } = useGLTF(IslandGLB);
   const islandRef = useRef<Group>(null);
 
-  const projects = [
-    {
-      name: "Kalyan Trust",
-      icon: "/kalyan.png",
-      link: "https://kalyantrust.org/",
-      techStack: [
-        "Razorpay",
-        "Tailwind CSS",
-        "Next.js",
-        "TypeScript",
-        "Express",
-        "MongoDB",
-      ],
-      description: `This fullstack application, developed for an NGO, integrates payment
-            processing and receipt storage using Razorpay. Built with Next.js
-            and TypeScript, it employs a custom Express server for backend
-            functionality and is styled with Tailwind CSS for a modern and
-            responsive user interface. The app facilitates secure and efficient
-            payment transactions, ensuring reliable record-keeping for the
-            NGO&pos;s financial operations.`,
-    },
-    {
-      name: "Tragency Media",
-      icon: "/tragency.png",
-      link: "https://tragency-server.onrender.com",
-      techStack: [
-        "Express",
-        "Typescript",
-        "Mongodb",
-        "React",
-        "Redux",
-        "PWA",
-        "Socket.io",
-      ],
-      description: `Developed a sophisticated stone-paper-scissors game with both AI and
-            multiplayer modes. The AI opponent is designed using advanced
-            pattern recognition techniques to adapt and respond to the
-            player&pos;s strategies, providing a challenging and dynamic
-            gameplay experience. In multiplayer mode, users can easily create
-            and share a game room link to invite friends for a match. The game
-            utilizes WebSockets for real-time communication, ensuring a seamless
-            and interactive multiplayer experience.`,
-    },
-    {
-      name: "AI/Multiplayer Stone Paper Scissors",
-      icon: "/sps.png",
-      link: "https://meta-sps.netlify.app/",
-      techStack: ["TypeScript", "Socket.io", "React", "Express"],
-      description: `This application is developed using React and TypeScript, leveraging
-            the React DnD library to replicate Instagram&pos;s create mode. It
-            enables users to design and customize memes, providing functionality
-            for exporting the finished creations.`,
-    },
-    {
-      name: "Insta Create Clone",
-      icon: "/meta-meme.png",
-      link: "https://meta-meme.netlify.app/",
-      techStack: ["React", "TypeScript", "React DnD"],
-      description: `This advanced fullstack MERN progressive web application allows
-            users to post content in three diverse formats: vlogs, blogs, and
-            text entries. It includes a comprehensive travel diary feature for
-            detailed journey documentation and incorporates chat villages where
-            travelers can connect and share experiences in real-time using
-            WebSockets. The application is further enhanced with robust push
-            notification capabilities, ensuring continuous user engagement and
-            timely updates.`,
-    },
-  ];
   return (
     <group {...props} dispose={null} ref={islandRef}>
-      <Robot
+      {/* <Robot
         scale={[0.4, 0.4, 0.4]}
         position={[26, 1.1, 5.6]}
         rotation={[0, Math.PI / 4, 0]}
@@ -112,8 +44,8 @@ const Island = ({
         showPrompt={pathIndex === 0}
         text="Hello, Welcome to the Future"
         startedText="Your Journey begins now. Use arrow keys to scroll"
-      />
-      {pathIndex === 1 && (
+      /> */}
+      {/* {pathIndex === 1 && (
         <Robot
           scale={[0.25, 0.25, 0.25]}
           position={[21, 2.2, -2.7]}
@@ -127,7 +59,6 @@ const Island = ({
           windowChildren={
             <div>
               <div>C:\Users\Vihaan&gt; whoami</div>
-              {/* {showResponse ? ( */}
               <>
                 <div>
                   Vihaan Verma | MERN stack developer | Freelancer | College
@@ -136,12 +67,11 @@ const Island = ({
                 <br />
                 <div>C:\Users\Vihaan&gt;</div>
               </>
-              {/* ) : null} */}
             </div>
           }
         />
-      )}
-      {pathIndex === 5 && (
+      )} */}
+      {/* {pathIndex === 5 && (
         <Robot
           scale={[0.25, 0.25, 0.25]}
           position={[2.7, 7.7, -17]}
@@ -188,7 +118,7 @@ const Island = ({
             </>
           }
         />
-      )}
+      )} */}
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <group
           position={[0.241, -7.502, 6.846]}

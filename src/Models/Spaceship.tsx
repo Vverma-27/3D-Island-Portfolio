@@ -32,6 +32,7 @@ const Spaceship = ({
   //   console.log("🚀 ~ Spaceship ~ actions:", spaceshipRef.current?.position);
   //   console.log("🚀 ~ Spaceship ~ rotation:", spaceshipRef.current?.rotation);
   const [moving, setMoving] = useState(false);
+  const prevIndex = useRef(0);
 
   const path = [
     {
@@ -61,6 +62,7 @@ const Spaceship = ({
         -8.336152825576129
       ),
       rotation: new THREE.Euler(0, 2.3920000000000017, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -69,6 +71,7 @@ const Spaceship = ({
         -124.86007641993007
       ),
       rotation: new THREE.Euler(0, Math.PI, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -85,10 +88,12 @@ const Spaceship = ({
         -102.49134770054597
       ),
       rotation: new THREE.Euler(0, -Math.PI / 3, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(-380, 77, -25),
       rotation: new THREE.Euler(0, 5.371999999999974, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -101,6 +106,7 @@ const Spaceship = ({
     {
       position: new THREE.Vector3(-298, 120, 150),
       rotation: new THREE.Euler(0, Math.PI - Math.PI / 10, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -109,6 +115,7 @@ const Spaceship = ({
         68.52592085632755
       ),
       rotation: new THREE.Euler(0, Math.PI, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -117,6 +124,7 @@ const Spaceship = ({
         68.52592085632755
       ),
       rotation: new THREE.Euler(0, -Math.PI / 1.8, 0, "XYZ"),
+      temp: true,
     },
     {
       position: new THREE.Vector3(
@@ -140,7 +148,7 @@ const Spaceship = ({
 
   useEffect(() => {
     const handleKeyDown1 = (event: any) => {
-      if (event.key === "ArrowUp" && !moving) {
+      if (event.key === "ArrowUp" && !moving && initialized) {
         if (pathIndex === 2 && orcAlive) {
           const currPos = spaceshipRef.current?.position;
           spaceshipRef.current?.position.lerp(
@@ -155,9 +163,11 @@ const Spaceship = ({
           }, 3000);
           return;
         }
+        prevIndex.current = pathIndex;
         setPathIndex((prevIndex) => Math.min(prevIndex + 1, path.length - 1));
         setMoving(true);
-      } else if (event.key === "ArrowDown" && !moving) {
+      } else if (event.key === "ArrowDown" && !moving && initialized) {
+        prevIndex.current = pathIndex;
         setPathIndex((prevIndex) => Math.max(prevIndex - 1, 0));
         setMoving(true);
       }
@@ -168,7 +178,7 @@ const Spaceship = ({
     return () => {
       window.removeEventListener("keydown", handleKeyDown1);
     };
-  }, [moving, orcAlive, spaceshipRef.current, pathIndex]);
+  }, [moving, orcAlive, spaceshipRef.current, pathIndex, initialized]);
 
   useEffect(() => {
     const handleClick = () => {
@@ -192,27 +202,27 @@ const Spaceship = ({
         const targetRotation = new THREE.Quaternion().setFromEuler(
           path[pathIndex].rotation
         );
-
+        const isTemp = path[pathIndex].temp;
         const positionReached =
           spaceshipRef.current.position.distanceTo(targetPosition) < 0.1;
         const rotationReached =
           spaceshipRef.current.quaternion.angleTo(targetRotation) < 0.1;
-
         if (positionReached && rotationReached) {
           if (moving) setMoving(false);
+          if (isTemp) {
+            prevIndex.current === pathIndex;
+            if (prevIndex.current > pathIndex) {
+              setPathIndex(pathIndex - 1);
+              setMoving(true);
+            } else {
+              setPathIndex(pathIndex + 1);
+              setMoving(true);
+            }
+          }
         } else {
           spaceshipRef.current.position.lerp(targetPosition, 0.05);
           spaceshipRef.current.quaternion.slerp(targetRotation, 0.05);
         }
-        // spaceshipRef.current.rotation.y += rotationSpeed;
-        // const forward = new THREE.Vector3(-1, 0, 0);
-        // forward.applyQuaternion(spaceshipRef.current.quaternion);
-        // forward.normalize();
-        // if (upSpeed) {
-        //   spaceshipRef.current.position.y += upSpeed;
-        // }
-        // // Update the position based on the forward direction
-        // spaceshipRef.current.position.add(forward.multiplyScalar(moveSpeed));
       } else {
         // Move the spaceship up in the y-axis until y = 4
         if (spaceshipRef.current.position.y < 7) {

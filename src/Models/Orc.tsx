@@ -27,7 +27,6 @@ const Orc = ({ showPrompt, alive, ...props }: OrcProps) => {
     // Calculate opacity reduction per frame based on duration
     const opacityReduction = (1 / 1.5) * delta;
     setOpacity((prevOpacity) => Math.max(prevOpacity - opacityReduction, 0));
-    console.log(orcRef.current.material);
     if (orcRef.current) {
       copiedScene.traverse((child) => {
         if (child.isMesh) {
