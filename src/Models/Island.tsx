@@ -9,7 +9,7 @@ Title: Issum, The town on Capital Isle
 import { useGLTF } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
 //@ts-ignore
-import IslandGLB from "../assets/3D/island.glb";
+import IslandGLB from "../assets/3D/island-v1.glb";
 import { useRef } from "react";
 import { Group } from "three";
 

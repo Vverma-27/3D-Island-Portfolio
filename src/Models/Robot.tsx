@@ -2,7 +2,7 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { MeshProps } from "@react-three/fiber";
 //@ts-ignore
-import RobotGLB from "../assets/3D/robot.glb";
+import RobotGLB from "../assets/3D/robot-v1.glb";
 import {
   Dispatch,
   SetStateAction,

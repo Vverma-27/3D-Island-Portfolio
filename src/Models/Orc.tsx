@@ -3,7 +3,7 @@
 import { useGLTF } from "@react-three/drei";
 import { MeshProps, useFrame } from "@react-three/fiber";
 
-import OrcGLB from "../assets/3D/orc.glb";
+import OrcGLB from "../assets/3D/orc-v1.glb";
 import { useMemo, useRef, useState } from "react";
 import TextTooltip from "../components/TextToolTip";
 import { Euler, Mesh, Vector3 } from "three";

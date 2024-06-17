@@ -3,7 +3,7 @@ import { MeshProps, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 //@ts-ignore
-import SpaceshipGLB from "../assets/3D/spaceship.glb";
+import SpaceshipGLB from "../assets/3D/spaceship-v1.glb";
 import PlasmaBeam from "./PlasmaBeam";
 
 interface SpaceshipProps extends MeshProps {

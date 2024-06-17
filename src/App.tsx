@@ -116,7 +116,7 @@ function App() {
         <Suspense fallback={<Loader />}>
           <CameraController activeCamera={activeCamera} />
           <directionalLight position={[1, 100, 1]} intensity={2} />
-          <ambientLight intensity={0.5} />
+          <ambientLight intensity={1} />
           {/* 
           <pointLight position={[10, 5, 10]} intensity={2} />
           <spotLight
