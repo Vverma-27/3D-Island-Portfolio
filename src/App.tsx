@@ -2,7 +2,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import Island from "./Models/Island";
 import * as THREE from "three";
 import { Suspense, useRef, useState } from "react";
-import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { PerspectiveCamera } from "@react-three/drei";
 import Space from "./Models/Space";
 import Spaceship from "./Models/Spaceship";
 import Orc from "./Models/Orc";
