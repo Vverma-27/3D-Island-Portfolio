@@ -6,11 +6,7 @@ import SpaceGLB from "../assets/3D/space.glb";
 import { useRef } from "react";
 import { Mesh } from "three";
 
-interface SpaceProps extends MeshProps {
-  isRotating: boolean;
-}
-
-const Space = ({ isRotating, ...props }: SpaceProps) => {
+const Space = (props: MeshProps) => {
   const space = useGLTF(SpaceGLB);
   const spaceRef = useRef<Mesh>(null);
   // useFrame((_, delta) => {

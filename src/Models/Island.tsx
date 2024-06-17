@@ -10,26 +10,10 @@ import { useGLTF } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
 //@ts-ignore
 import IslandGLB from "../assets/3D/island.glb";
-import { Dispatch, SetStateAction, useRef } from "react";
+import { useRef } from "react";
 import { Group } from "three";
-import Robot from "./Robot";
 
-interface IslandProps extends GroupProps {
-  isRotating: boolean;
-  activeCamera: "spaceship" | "default";
-  setIsRotating: Dispatch<SetStateAction<boolean>>;
-  setActiveCamera: Dispatch<SetStateAction<"spaceship" | "default">>;
-  pathIndex: number;
-}
-
-const Island = ({
-  isRotating,
-  setIsRotating,
-  setActiveCamera,
-  activeCamera,
-  pathIndex,
-  ...props
-}: IslandProps) => {
+const Island = (props: GroupProps) => {
   const { nodes, materials } = useGLTF(IslandGLB);
   const islandRef = useRef<Group>(null);
 
