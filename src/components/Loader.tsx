@@ -11,6 +11,9 @@ const Loader = () => {
         className="h-[100vh] w-[100vw] flex justify-center items-center"
         id="loader"
       >
+        <h1 className="font-light text-white text-xl absolute top-[5vh] left-0 right-0 text-center">
+          We are sorry for wait, the models take some time to load
+        </h1>
         <svg className="bike" viewBox="0 0 48 30" width="48px" height="30px">
           <g
             fill="none"
