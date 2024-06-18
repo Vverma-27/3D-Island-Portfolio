@@ -181,6 +181,7 @@ const Spaceship = ({
 
   useEffect(() => {
     const handleClick = (event: any) => {
+      if ([...event.target.classList].includes("clickable")) return;
       if (!initialized) return;
       if (moving) return;
       const screenHeight = window.innerHeight;
@@ -241,14 +242,14 @@ const Spaceship = ({
       } else {
         // Move the spaceship up in the y-axis until y = 4
         if (spaceshipRef.current.position.y < 7) {
-          spaceshipRef.current.position.y += 0.05; // Adjust the speed as needed
+          spaceshipRef.current.position.y += 0.2; // Adjust the speed as needed
         }
         // Rotate the spaceship on the y-axis by 45 degrees (PI/4 radians)
         else if (
           spaceshipRef.current.position.y >= 4 &&
           spaceshipRef.current.rotation.y < Math.PI
         ) {
-          spaceshipRef.current.rotation.y += 0.004; // Adjust the speed as needed
+          spaceshipRef.current.rotation.y += 0.04; // Adjust the speed as needed
         }
         // else if (
         //   spaceshipRef.current.position.y >= 4 &&

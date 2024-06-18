@@ -18,9 +18,9 @@ const Loader = () => {
           <g
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1"
           >
             <g transform="translate(9.5,19)">
               <circle

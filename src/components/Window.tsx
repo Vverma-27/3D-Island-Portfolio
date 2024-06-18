@@ -78,15 +78,15 @@ const Window = ({
           <div className="flex items-center bg-gray-200 p-2 border-b border-gray-300">
             <div className="flex space-x-2 cursor-pointer">
               <span
-                className="block w-3 h-3 bg-red-500 rounded-full"
+                className="block w-3 h-3 bg-red-500 rounded-full clickable"
                 onClick={onClose}
               ></span>
               <span
-                className="block w-3 h-3 bg-yellow-500 rounded-full"
+                className="block w-3 h-3 bg-yellow-500 rounded-full clickable"
                 onClick={onClose}
               ></span>
               <span
-                className="block w-3 h-3 bg-green-500 rounded-full"
+                className="block w-3 h-3 bg-green-500 rounded-full clickable"
                 onClick={() => setMaximized((m) => !m)}
               ></span>
             </div>

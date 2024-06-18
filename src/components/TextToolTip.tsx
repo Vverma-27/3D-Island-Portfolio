@@ -59,7 +59,7 @@ const TextTooltip = ({
         </p>
         {onClick ? (
           <button
-            className={`py-1 px-2 bg-purple-500 text-xs font-bold text-white mt-2 font-sans active:scale-90 transition-all ${
+            className={`py-1 px-2 bg-purple-500 text-xs font-bold text-white mt-2 font-sans active:scale-90 transition-all clickable ${
               started ? "opacity-0 h-0 w-0" : "opacity-100"
             }`}
             style={{ transitionDelay: "height width 150ms" }}
