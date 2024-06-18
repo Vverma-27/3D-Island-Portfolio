@@ -180,9 +180,25 @@ const Spaceship = ({
   }, [moving, orcAlive, spaceshipRef.current, pathIndex, initialized]);
 
   useEffect(() => {
-    const handleClick = () => {
-      if (pathIndex === 2) {
+    const handleClick = (event: any) => {
+      if (!initialized) return;
+      if (moving) return;
+      const screenHeight = window.innerHeight;
+      const clickY = event.clientY;
+      if (pathIndex === 2 && orcAlive) {
         setShowPlasmaBeam(true);
+        return;
+      }
+      if (clickY < screenHeight / 2) {
+        if (pathIndex !== 2 || !orcAlive) {
+          prevIndex.current = pathIndex;
+          setPathIndex((prevIndex) => Math.min(prevIndex + 1, path.length - 1));
+          setMoving(true);
+        }
+      } else {
+        prevIndex.current = pathIndex;
+        setPathIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+        setMoving(true);
       }
     };
 
@@ -191,7 +207,7 @@ const Spaceship = ({
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, [pathIndex]);
+  }, [pathIndex, orcAlive, spaceshipRef.current, moving, initialized]);
 
   useFrame(() => {
     if (!spaceshipRef.current) return;
