@@ -119,12 +119,7 @@ function App() {
           <ambientLight intensity={1} />
           {/* 
           <pointLight position={[10, 5, 10]} intensity={2} />
-          <spotLight
-            position={[0, 50, 10]}
-            angle={0.15}
-            penumbra={1}
-            intensity={2}
-          /> */}
+          */}
           <hemisphereLight
             // skyColor="#b1e1ff"
             groundColor="#000000"
@@ -137,7 +132,7 @@ function App() {
             scale={[2, 2, 2]}
             rotation={[Math.PI, 0, Math.PI]}
           />
-          <pointLight position={[7.25, 2, -1.5]} intensity={4} />
+          <pointLight position={[7.25, 1.5, -1.5]} intensity={2} />
           <Orc
             position={[7.25, 1.5, -1.5]}
             rotation={[0, Math.PI / 3, 0]}

@@ -315,6 +315,7 @@ const Spaceship = ({
           // makeDefault={activeCamera === "spaceship"}
           position={[0, 4, 0]}
         />
+        <pointLight position={[0, 4, 0]} intensity={2} />
         {
           showPlasmaBeam &&
             [-1, -0.5, 0, 0.5, 1].map((e, i) => {
